@@ -3,21 +3,26 @@
 namespace App\Command;
 
 use App\Character\Character;
+use App\Event\FightStartingEvent;
+use App\Event\OutputFightStartingSubscriber;
 use App\FightResult;
 use App\GameApplication;
 use App\Observer\XpEarnedObserver;
+use App\Service\OutputtingXpCalculator;
 use App\Service\XpCalculator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand('app:game:play')]
 class GameCommand extends Command
 {
     public function __construct(
-        private readonly GameApplication $game
+        private readonly GameApplication $game,
+        private readonly EventDispatcherInterface $eventDispatcher
     )
     {
         parent::__construct();
